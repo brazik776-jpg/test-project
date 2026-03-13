@@ -9,13 +9,14 @@
       --bg-gradient-start: #020617;
       --bg-gradient-end: #000000;
       --accent: #38bdf8;
-      --accent-soft: rgba(56, 189, 248, 0.15);
+      --accent-strong: #7dd3fc;
+      --accent-soft: rgba(56, 189, 248, 0.18);
       --text-main: #e5e7eb;
       --text-muted: #9ca3af;
-      --border-subtle: rgba(148, 163, 184, 0.35);
-      --card-bg: rgba(15, 23, 42, 0.9);
+      --border-subtle: rgba(148, 163, 184, 0.4);
+      --card-bg: rgba(15, 23, 42, 0.92);
       --radius-lg: 18px;
-      --shadow-soft: 0 22px 45px rgba(15, 23, 42, 0.85);
+      --shadow-soft: 0 26px 55px rgba(15, 23, 42, 0.95);
       --max-width: 960px;
     }
 
@@ -30,20 +31,24 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
         "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at top left, #0b1120, #020617 55%),
-        radial-gradient(circle at bottom right, #020617, #020617 65%);
+        radial-gradient(circle at top left, #020617, #020617 40%),
+        radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent 60%),
+        radial-gradient(circle at bottom left, rgba(8, 47, 73, 0.7), #020617 70%);
       color: var(--text-main);
       display: flex;
       justify-content: center;
       padding: 24px 16px 40px;
+      color-scheme: dark;
     }
 
     .page {
       width: 100%;
       max-width: var(--max-width);
       border-radius: 28px;
-      background: radial-gradient(circle at top left, #020617, #020617 40%) padding-box;
-      border: 1px solid rgba(148, 163, 184, 0.4);
+      background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.14), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.95), #020617 70%) padding-box;
+      border: 1px solid rgba(148, 163, 184, 0.55);
       box-shadow: var(--shadow-soft);
       overflow: hidden;
       display: flex;
@@ -58,10 +63,31 @@
       justify-content: space-between;
       background: linear-gradient(
         135deg,
-        rgba(30, 64, 175, 0.9),
-        rgba(8, 47, 73, 0.9)
+        rgba(30, 64, 175, 0.95),
+        rgba(8, 47, 73, 0.98)
       );
-      border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.5);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      z-index: 10;
+      transition:
+        padding 0.2s ease,
+        background 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .shell-top.scrolled {
+      padding: 10px 18px 8px;
+      background: linear-gradient(
+        135deg,
+        rgba(15, 23, 42, 0.96),
+        rgba(15, 23, 42, 0.98)
+      );
+      border-bottom-color: rgba(148, 163, 184, 0.7);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+      transform: translateY(-2px);
     }
 
     .shell-dots {
@@ -75,11 +101,12 @@
       border-radius: 999px;
       background: rgba(15, 23, 42, 0.9);
       opacity: 0.7;
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.85), 0 0 0 4px rgba(15, 23, 42, 0.7);
     }
 
     .shell-title {
       font-size: 0.78rem;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       color: rgba(226, 232, 240, 0.85);
     }
@@ -100,19 +127,31 @@
         background 0.2s ease,
         border-color 0.2s ease,
         color 0.2s ease,
-        transform 0.15s ease;
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
     }
 
     .nav a:hover {
       background: rgba(15, 23, 42, 0.25);
-      border-color: rgba(148, 163, 184, 0.6);
+      border-color: rgba(191, 219, 254, 0.7);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5);
       transform: translateY(-1px);
     }
 
     .nav a.nav-primary {
-      background: rgba(15, 23, 42, 0.2);
-      border-color: rgba(191, 219, 254, 0.65);
+      background: rgba(15, 23, 42, 0.35);
+      border-color: rgba(191, 219, 254, 0.85);
       color: #e0f2fe;
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.55),
+        0 18px 35px rgba(15, 23, 42, 0.95);
+    }
+
+    .nav a.nav-active {
+      background: rgba(15, 23, 42, 0.65);
+      border-color: rgba(191, 219, 254, 0.9);
+      color: var(--accent-strong);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.7),
+        0 18px 35px rgba(15, 23, 42, 0.95);
     }
 
     .content {
@@ -120,6 +159,7 @@
       display: grid;
       grid-template-columns: 3fr 2fr;
       gap: 22px;
+      animation: fade-up 0.7s ease-out both;
     }
 
     section {
@@ -127,6 +167,9 @@
       background: var(--card-bg);
       border: 1px solid var(--border-subtle);
       padding: 18px 18px 16px;
+      box-shadow: 0 16px 35px rgba(15, 23, 42, 0.75);
+      position: relative;
+      overflow: hidden;
     }
 
     section + section {
@@ -136,7 +179,8 @@
     .hero {
       position: relative;
       overflow: hidden;
-      background: radial-gradient(circle at top left, #020617, #000000);
+      background:
+        radial-gradient(circle at top left, #020617, #000000 55%);
     }
 
     .hero::before {
@@ -145,8 +189,8 @@
       inset: -40%;
       background:
         radial-gradient(circle at top left, rgba(56, 189, 248, 0.24), transparent 60%),
-        radial-gradient(circle at bottom right, rgba(8, 47, 73, 0.8), transparent 55%);
-      opacity: 0.8;
+        radial-gradient(circle at bottom right, rgba(8, 47, 73, 0.9), transparent 55%);
+      opacity: 0.9;
       mix-blend-mode: screen;
       pointer-events: none;
     }
@@ -154,11 +198,12 @@
     .hero-inner {
       position: relative;
       z-index: 1;
+      padding-bottom: 8px;
     }
 
     .hero-kicker {
       font-size: 0.75rem;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--accent);
       margin-bottom: 10px;
@@ -185,7 +230,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .tag {
@@ -196,6 +241,20 @@
       background: rgba(15, 23, 42, 0.7);
       color: #e0f2fe;
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.9);
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease,
+        background 0.18s ease;
+    }
+
+    .tag:hover {
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: 0 16px 32px rgba(15, 23, 42, 0.95);
+      border-color: rgba(125, 211, 252, 0.8);
+      background: rgba(15, 23, 42, 0.9);
     }
 
     .hero-meta {
@@ -218,6 +277,7 @@
       border-radius: 999px;
       background: var(--accent);
       box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25);
+      animation: pulse 1.8s ease-out infinite;
     }
 
     .section-header {
@@ -250,6 +310,7 @@
       color: var(--text-main);
       line-height: 1.6;
       margin-bottom: 10px;
+      opacity: 0.96;
     }
 
     .about-grid {
@@ -266,6 +327,12 @@
       border: 1px solid rgba(30, 64, 175, 0.65);
       font-size: 0.78rem;
       color: var(--text-muted);
+      box-shadow: 0 12px 26px rgba(15, 23, 42, 0.9);
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease,
+        background 0.18s ease;
     }
 
     .about-item strong {
@@ -273,6 +340,14 @@
       color: #e5e7eb;
       font-weight: 600;
       margin-bottom: 3px;
+      letter-spacing: 0.02em;
+    }
+
+    .about-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 32px rgba(15, 23, 42, 0.98);
+      border-color: rgba(96, 165, 250, 0.85);
+      background: radial-gradient(circle at top left, rgba(30, 64, 175, 0.9), rgba(15, 23, 42, 0.96));
     }
 
     .contacts {
@@ -282,8 +357,10 @@
           rgba(15, 23, 42, 0.98),
           rgba(8, 47, 73, 0.98)
         );
-      border-color: rgba(56, 189, 248, 0.4);
-      box-shadow: 0 22px 40px rgba(8, 47, 73, 0.7);
+      border-color: rgba(56, 189, 248, 0.5);
+      box-shadow:
+        0 22px 40px rgba(8, 47, 73, 0.8),
+        0 0 0 1px rgba(56, 189, 248, 0.25);
     }
 
     .contacts-list {
@@ -301,6 +378,12 @@
       border-radius: 12px;
       background: rgba(15, 23, 42, 0.8);
       border: 1px solid rgba(148, 163, 184, 0.45);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.9);
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease,
+        background 0.18s ease;
     }
 
     .contact-label {
@@ -315,6 +398,14 @@
       font-size: 0.82rem;
       text-align: right;
       word-break: break-all;
+      max-width: 70%;
+    }
+
+    .contact-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 38px rgba(15, 23, 42, 0.98);
+      border-color: rgba(191, 219, 254, 0.75);
+      background: radial-gradient(circle at top left, rgba(30, 64, 175, 0.9), rgba(15, 23, 42, 0.96));
     }
 
     .mini-footer {
@@ -338,6 +429,115 @@
       border: 1px solid rgba(148, 163, 184, 0.4);
       font-size: 0.7rem;
       color: var(--text-muted);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.9);
+    }
+
+    .hero-actions {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .hero-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(191, 219, 254, 0.85);
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.3), rgba(15, 23, 42, 0.95));
+      color: #e0f2fe;
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-decoration: none;
+      box-shadow:
+        0 0 0 1px rgba(56, 189, 248, 0.6),
+        0 22px 40px rgba(15, 23, 42, 0.98);
+      cursor: pointer;
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease,
+        border-color 0.18s ease;
+    }
+
+    .hero-button:hover {
+      transform: translateY(-1px) scale(1.02);
+      box-shadow:
+        0 0 0 1px rgba(125, 211, 252, 0.9),
+        0 26px 48px rgba(15, 23, 42, 1);
+      border-color: rgba(125, 211, 252, 0.95);
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.4), rgba(15, 23, 42, 0.98));
+    }
+
+    .hero-button-secondary {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.88);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      text-decoration: none;
+      transition:
+        background 0.18s ease,
+        border-color 0.18s ease,
+        color 0.18s ease;
+    }
+
+    .hero-button-secondary:hover {
+      background: rgba(15, 23, 42, 0.98);
+      border-color: rgba(191, 219, 254, 0.7);
+      color: #e5e7eb;
+    }
+
+    .scroll-progress {
+      position: absolute;
+      inset-inline: 16px;
+      bottom: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.35);
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .scroll-progress-bar {
+      width: 0;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.9);
+      transform-origin: left center;
+      transition: width 0.1s ease-out;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25);
+      }
+      50% {
+        transform: scale(1.15);
+        box-shadow: 0 0 0 7px rgba(56, 189, 248, 0.18);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25);
+      }
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     @media (max-width: 768px) {
@@ -386,6 +586,7 @@
 
       .contact-value {
         text-align: left;
+        max-width: 100%;
       }
 
       .nav {
@@ -395,6 +596,11 @@
       .nav a {
         padding: 3px 8px;
         font-size: 0.75rem;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
@@ -413,6 +619,9 @@
         <a href="#about">About</a>
         <a href="#contacts">Contact</a>
       </nav>
+      <div class="scroll-progress" aria-hidden="true">
+        <div class="scroll-progress-bar"></div>
+      </div>
     </header>
 
     <div class="content">
@@ -435,6 +644,10 @@
             <div class="hero-meta">
               <span><span class="dot"></span> Open to new ideas</span>
               <span>Based somewhere on Earth</span>
+            </div>
+            <div class="hero-actions">
+              <a href="#contacts" class="hero-button">Contact me</a>
+              <a href="#about" class="hero-button-secondary">Read more about me</a>
             </div>
           </div>
         </section>
@@ -496,5 +709,53 @@
       </aside>
     </div>
   </main>
+  <script>
+    (function () {
+      const header = document.querySelector(".shell-top");
+      const progressBar = document.querySelector(".scroll-progress-bar");
+      const navLinks = document.querySelectorAll(".nav a[href^=\"#\"]");
+
+      function updateOnScroll() {
+        const scrollY = window.scrollY || window.pageYOffset;
+        if (scrollY > 8) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
+        if (progressBar) {
+          progressBar.style.width = progress + "%";
+        }
+
+        let currentId = "hero";
+        const sections = ["hero", "about", "contacts"];
+        for (const id of sections) {
+          const section = document.getElementById(id);
+          if (!section) continue;
+          const rect = section.getBoundingClientRect();
+          if (rect.top <= 80 && rect.bottom >= 80) {
+            currentId = id;
+            break;
+          }
+        }
+
+        navLinks.forEach((link) => {
+          const href = link.getAttribute("href");
+          if (!href) return;
+          const targetId = href.replace("#", "");
+          if (targetId === currentId) {
+            link.classList.add("nav-active");
+          } else {
+            link.classList.remove("nav-active");
+          }
+        });
+      }
+
+      window.addEventListener("scroll", updateOnScroll, { passive: true });
+      window.addEventListener("load", updateOnScroll);
+    })();
+  </script>
 </body>
 </html>
